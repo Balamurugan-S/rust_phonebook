@@ -56,6 +56,26 @@ impl PhoneBook {
             }
         }
     }
+
+    fn find(&mut self) {
+        let mut name_to_be_found = String::new();
+        println!("Enter Name to be found: ");
+        io::stdin()
+            .read_line(&mut name_to_be_found)
+            .expect("No username");
+        let name_to_be_found: String = name_to_be_found
+            .trim()
+            .parse()
+            .expect("Name entered was not a valid");
+
+        for name_idx in 0..self.name.len() {
+            if self.name[name_idx] == (name_to_be_found) {
+                println!("Found {}", self.name[name_idx]);
+                println!("\t Name:   {}", self.name[name_idx]);
+                println!("\t Number: {}", self.number[name_idx]);
+            }
+        }
+    }
 }
 
 fn main() {
@@ -80,6 +100,7 @@ fn main() {
             1 => phonebook_instance.list(),
             2 => phonebook_instance.add(),
             3 => phonebook_instance.delete(),
+            4 => phonebook_instance.find(),
             5 => process::exit(1),
             _ => panic!("Wrong Choice"),
         }
