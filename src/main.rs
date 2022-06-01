@@ -8,14 +8,14 @@ struct PhoneBook {
 
 impl PhoneBook {
     fn list(&self) {
+        println!("NAME \t\t CONTACT NUMBER");
+        println!("------------------------");
         for i in 0..self.name.len() {
-            println!("{} {}", self.name[i], self.number[i]);
+            println!("{} \t\t {}", self.name[i], self.number[i]);
         }
     }
 
     fn add(&mut self) {
-        println!("Adding data");
-
         let mut user_name = String::new();
         println!("Enter Name: ");
         io::stdin().read_line(&mut user_name).expect("No username");
@@ -36,12 +36,32 @@ impl PhoneBook {
             .expect("Number entered was not a valid");
         self.number.push(user_number);
     }
+
+    fn delete(&mut self) {
+        let mut name_to_be_deleted = String::new();
+        println!("Enter Name to be deleted: ");
+        io::stdin()
+            .read_line(&mut name_to_be_deleted)
+            .expect("No username");
+        let name_to_be_deleted: String = name_to_be_deleted
+            .trim()
+            .parse()
+            .expect("Name entered was not a valid");
+
+        for name_idx in 0..self.name.len() {
+            if self.name[name_idx] == (name_to_be_deleted) {
+                println!("found at index {}", name_idx);
+                self.name.remove(name_idx);
+                self.number.remove(name_idx);
+            }
+        }
+    }
 }
 
 fn main() {
     let mut phonebook_instance = PhoneBook {
-        name: Vec::new(),
-        number: Vec::new(),
+        name: vec![],
+        number: vec![],
     };
 
     loop {
@@ -56,11 +76,10 @@ fn main() {
             .parse()
             .expect("user_choice entered was not a number");
 
-        println!("You have entered: {}", user_choice);
-
         match user_choice {
             1 => phonebook_instance.list(),
             2 => phonebook_instance.add(),
+            3 => phonebook_instance.delete(),
             5 => process::exit(1),
             _ => panic!("Wrong Choice"),
         }
@@ -68,11 +87,14 @@ fn main() {
 }
 
 fn menu() {
+    println!("*---------------------*");
     println!("My RUSTY Phonebook");
+    println!("*---------------------*");
     println!("1. List   Contacts");
     println!("2. Add    Contacts");
     println!("3. Delete Contacts");
     println!("4. Find   Contacts");
     println!("5. EXIT");
+    println!("*---------------------*");
     println!("Enter your choice: ");
 }
