@@ -21,15 +21,7 @@ impl PhoneBook {
     }
 
     pub fn delete(&mut self) {
-        let mut name_to_be_deleted = String::new();
-        println!("Enter Name to be deleted: ");
-        io::stdin()
-            .read_line(&mut name_to_be_deleted)
-            .expect("No username");
-        let name_to_be_deleted: String = name_to_be_deleted
-            .trim()
-            .parse()
-            .expect("Name entered was not a valid");
+        let name_to_be_deleted = Self::get_user_name(&self);
 
         if !Self::check_empty(&self) {
             for name_idx in 0..self.name.len() {
@@ -37,8 +29,6 @@ impl PhoneBook {
                     println!("DELETED {}", self.name[name_idx]);
                     self.name.remove(name_idx);
                     self.number.remove(name_idx);
-                } else {
-                    println!("Not found");
                 }
             }
         }
@@ -61,8 +51,6 @@ impl PhoneBook {
                     println!("Found {}", self.name[name_idx]);
                     println!("\t Name:   {}", self.name[name_idx]);
                     println!("\t Number: {}", self.number[name_idx]);
-                } else {
-                    println!("Not Found {}", name_to_be_found);
                 }
             }
         }
