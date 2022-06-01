@@ -8,7 +8,9 @@ struct PhoneBook {
 
 impl PhoneBook {
     fn list(&self) {
-        println!("{:?} {:?}", self.name, self.number);
+        for i in 0..self.name.len() {
+            println!("{} {}", self.name[i], self.number[i]);
+        }
     }
 
     fn add(&mut self) {
