@@ -2,13 +2,13 @@ use std::io;
 use std::process;
 
 struct PhoneBook {
-    name: String,
-    number: String,
+    name: Vec<String>,
+    number: Vec<String>,
 }
 
 impl PhoneBook {
     fn list(&self) {
-        println!("{} {}", self.name, self.number);
+        println!("{:?} {:?}", self.name, self.number);
     }
 
     fn add(&mut self) {
@@ -21,7 +21,7 @@ impl PhoneBook {
             .trim()
             .parse()
             .expect("Name entered was not a valid");
-        self.name = user_name;
+        self.name.push(user_name);
 
         let mut user_number = String::new();
         println!("Enter Number: ");
@@ -32,14 +32,14 @@ impl PhoneBook {
             .trim()
             .parse()
             .expect("Number entered was not a valid");
-        self.number = user_number;
+        self.number.push(user_number);
     }
 }
 
 fn main() {
     let mut phonebook_instance = PhoneBook {
-        name: String::from("John"),
-        number: String::from("1234567890"),
+        name: Vec::new(),
+        number: Vec::new(),
     };
 
     loop {
