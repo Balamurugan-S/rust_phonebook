@@ -35,15 +35,7 @@ impl PhoneBook {
     }
 
     pub fn find(&mut self) {
-        let mut name_to_be_found = String::new();
-        println!("Enter Name to be found: ");
-        io::stdin()
-            .read_line(&mut name_to_be_found)
-            .expect("No username");
-        let name_to_be_found: String = name_to_be_found
-            .trim()
-            .parse()
-            .expect("Name entered was not a valid");
+        let name_to_be_found = Self::get_user_name(&self);
 
         if !Self::check_empty(&self) {
             for name_idx in 0..self.name.len() {
