@@ -11,13 +11,9 @@ impl PhoneBook {
         println!("{} {}", self.name, self.number);
     }
 
-    fn add(&self) {
+    fn add(&mut self) {
         println!("Adding data");
-        Self::get_user_name();
-        Self::get_user_number();
-    }
 
-    fn get_user_name() {
         let mut user_name = String::new();
         println!("Enter Name: ");
         io::stdin().read_line(&mut user_name).expect("No username");
@@ -26,9 +22,7 @@ impl PhoneBook {
             .parse()
             .expect("Name entered was not a valid");
         self.name = user_name;
-    }
 
-    fn get_user_number() {
         let mut user_number = String::new();
         println!("Enter Number: ");
         io::stdin()
@@ -43,7 +37,7 @@ impl PhoneBook {
 }
 
 fn main() {
-    let phonebook_instance = PhoneBook {
+    let mut phonebook_instance = PhoneBook {
         name: String::from("John"),
         number: String::from("1234567890"),
     };
