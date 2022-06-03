@@ -1,5 +1,7 @@
+use std::error::Error;
 use std::io;
 
+#[derive(Default)]
 pub struct PhoneBook {
     pub name: Vec<String>,
     pub number: Vec<String>,
@@ -29,6 +31,7 @@ impl PhoneBook {
                     println!("DELETED {}", self.name[name_idx]);
                     self.name.remove(name_idx);
                     self.number.remove(name_idx);
+                    break;
                 }
             }
         }
@@ -95,15 +98,12 @@ pub fn menu() {
     println!("Enter your choice: ");
 }
 
-pub fn get_user_choice() -> u8 {
+pub fn get_user_choice() -> Result<u8, Box<dyn Error>> {
     let mut user_choice = String::new();
 
-    io::stdin().read_line(&mut user_choice).expect("No input");
+    io::stdin().read_line(&mut user_choice)?;
 
-    let user_choice: u8 = user_choice
-        .trim()
-        .parse()
-        .expect("user_choice entered was not a number");
+    let user_choice: u8 = user_choice.trim().parse()?;
 
-    user_choice
+    Ok(user_choice)
 }
