@@ -17,41 +17,54 @@ impl PhoneBook {
     }
 
     pub fn add(&mut self) {
-        self.name.push(Self::get_user_name(&self));
+        match Self::get_user_name(&self) {
+            Ok(user_name) => self.name.push(user_name),
+            Err(error) => println!("{}", error),
+        }
 
-        self.number.push(Self::get_user_number(&self));
+        match Self::get_user_number(&self) {
+            Ok(user_number) => self.number.push(user_number),
+            Err(error) => println!("{}", error),
+        }
     }
 
     pub fn delete(&mut self) {
-        let name_to_be_deleted = Self::get_user_name(&self);
-
-        if !Self::check_empty(&self) {
-            for name_idx in 0..self.name.len() {
-                if self.name[name_idx] == (name_to_be_deleted) {
-                    println!("DELETED {}", self.name[name_idx]);
-                    self.name.remove(name_idx);
-                    self.number.remove(name_idx);
-                    break;
+        match Self::get_user_name(&self) {
+            Ok(name_to_be_deleted) => {
+                if !Self::check_empty(&self) {
+                    for name_idx in 0..self.name.len() {
+                        if self.name[name_idx] == (name_to_be_deleted) {
+                            println!("DELETED {}", self.name[name_idx]);
+                            self.name.remove(name_idx);
+                            self.number.remove(name_idx);
+                            break;
+                        }
+                    }
                 }
             }
+            Err(error) => println!("{}", error),
         }
     }
 
     pub fn find(&mut self) {
-        let name_to_be_found = Self::get_user_name(&self);
-
-        if !Self::check_empty(&self) {
-            for name_idx in 0..self.name.len() {
-                if self.name[name_idx] == (name_to_be_found) {
-                    println!("Found {}", self.name[name_idx]);
-                    println!("\t Name:   {}", self.name[name_idx]);
-                    println!("\t Number: {}", self.number[name_idx]);
+        match Self::get_user_name(&self) {
+            Ok(name_to_be_found) => {
+                if !Self::check_empty(&self) {
+                    for name_idx in 0..self.name.len() {
+                        if self.name[name_idx] == (name_to_be_found) {
+                            println!("Found {}", self.name[name_idx]);
+                            println!("\t Name:   {}", self.name[name_idx]);
+                            println!("\t Number: {}", self.number[name_idx]);
+                            break;
+                        }
+                    }
                 }
             }
+            Err(error) => println!("{}", error),
         }
     }
 
-    fn get_user_name(&self) -> String {
+    fn get_user_name(&self) -> Result<String, Box<dyn Error>> {
         let mut user_name = String::new();
         println!("Enter Name: ");
         io::stdin().read_line(&mut user_name).expect("No username");
@@ -59,20 +72,15 @@ impl PhoneBook {
             .trim()
             .parse()
             .expect("Name entered was not a valid");
-        user_name
+        Ok(user_name)
     }
 
-    fn get_user_number(&self) -> String {
+    fn get_user_number(&self) -> Result<String, Box<dyn Error>> {
         let mut user_number = String::new();
         println!("Enter Number: ");
-        io::stdin()
-            .read_line(&mut user_number)
-            .expect("No usernumber");
-        let user_number: String = user_number
-            .trim()
-            .parse()
-            .expect("Number entered was not a valid");
-        user_number
+        io::stdin().read_line(&mut user_number)?;
+        let user_number: String = user_number.trim().parse()?;
+        Ok(user_number)
     }
 
     fn check_empty(&self) -> bool {
