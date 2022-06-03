@@ -49,12 +49,14 @@ impl PhoneBook {
     pub fn find(&mut self) {
         match Self::get_user_name(&self) {
             Ok(name_to_be_found) => {
-                for name_idx in 0..self.name.len() {
-                    if self.name[name_idx] == (name_to_be_found) {
-                        println!("Found {}", self.name[name_idx]);
-                        println!("\t Name:   {}", self.name[name_idx]);
-                        println!("\t Number: {}", self.number[name_idx]);
-                        break;
+                if !Self::check_empty(&self) {
+                    for name_idx in 0..self.name.len() {
+                        if self.name[name_idx] == (name_to_be_found) {
+                            println!("Found {}", self.name[name_idx]);
+                            println!("\t Name:   {}", self.name[name_idx]);
+                            println!("\t Number: {}", self.number[name_idx]);
+                            break;
+                        }
                     }
                 }
             }
@@ -92,7 +94,7 @@ impl PhoneBook {
         Ok(user_number)
     }
 
-    fn _check_empty(&self) -> bool {
+    fn check_empty(&self) -> bool {
         if self.name.is_empty() {
             println!("No entries yet, Consider adding some info");
             return true;
